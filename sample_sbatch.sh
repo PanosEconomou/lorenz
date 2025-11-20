@@ -14,3 +14,7 @@
 module load python
 srun python lorenz.py
 echo "Job finished"
+
+
+# --- NYU GREENE ---
+# https://sites.google.com/nyu.edu/nyu-hpc/hpc-systems/greene/hardware-specs?authuser=0
