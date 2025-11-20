@@ -17,7 +17,7 @@ def step(x, f, h:float=1e-2):
 
 
 def worker(crange):
-    print(f"[{perf_counter():.3f}]--> PID=[{get_pid}] start at c={crange[0]:4.2f}")
+    print(f"[{perf_counter():.3f}]--> PID=[{getpid()}] start at c={crange[0]:4.2f}")
     a       = 10.
     b       = 28.
     h       = 1e-2
@@ -34,7 +34,7 @@ def worker(crange):
                 points.append(array([c,x0[2] - x0[0]*(x[2] - x0[2])/(x[0] - x0[0]) ]))
             x0 = x
 
-    print(f"[{perf_counter():.3f}]--> PID=[{get_pid}] end of c={crange[0]:4.2f}!")
+    print(f"[{perf_counter():.3f}]--> PID=[{getpid()}] end of c={crange[0]:4.2f}!")
 
     return points
 
