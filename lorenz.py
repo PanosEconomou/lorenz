@@ -1,50 +1,70 @@
 from numpy import array, linspace
 from multiprocessing import Pool, cpu_count
+import matplotlib.pyplot as plt
 
-# Lorenz velocity field factory
-def get_f(a: float, b: float, c: float):
+def get_f(a:float=10, b:float=28, c:float=2.667):
     def f(x):
-        return array([
-            a * (x[1] - x[0]),
-            x[0] * (b - x[2]) - x[1],
-            x[0] * x[1] - c * x[2]
-        ])
+        return array([a*(x[1] - x[0]), x[0]*(b - x[2]) - x[1], x[0]*x[1] - c*x[2]])
     return f
 
-# RK4 integrator
-def step(x, f, h: float = 1e-2):
+def step(x, f, h:float=1e-2):
     k1 = f(x)
-    k2 = f(x + k1 * h / 2)
-    k3 = f(x + k2 * h / 2)
-    k4 = f(x + k3 * h)
-    return x + (k1 + 2 * k2 + 2 * k3 + k4) * h / 6
+    k2 = f(x + k1*h/2)
+    k3 = f(x + k2*h/2)
+    k4 = f(x + k3*h)
+    return x + (k1 + 2*k2 + 2*k3 + k4)*h/6
 
-def stepfor(x, f, h: float = 1e-2, nsteps: int = 100):
-    for _ in range(nsteps):
-        x = step(x, f, h)
-    return x
 
-# IMPORTANT: worker must be top-level function
-def worker(args):
-    x, a, b, c, h, nsteps = args
-    f = get_f(a, b, c)  # defined inside worker; not pickled
-    return stepfor(x, f, h=h, nsteps=nsteps)
+def worker(crange):
+    print(f"--> Hello! I'm the worker starting at {crange[0]:4.2f}")
 
-def main():
-    # smaller test grid first!
-    init = linspace(0, 50, 100)
-    initial_points = [array([x, y, z]) for x in init for y in init for z in init]
+    a       = 10.
+    b       = 28.
+    h       = 1e-2
+    steps   = 10000
+    points  = []
 
-    a, b, c = 10.0, 28.0, 2.667
-    h = 1e-3
-    nsteps = 10
+    for c in crange:
+        f    = get_f(a,b,c)
+        x0   = array([1.,1.,1.])
+        x    = x0
+        ints = []
 
-    tasks = [(x0, a, b, c, h, nsteps) for x0 in initial_points]
+        for _ in range(steps):
+            x = step(x0,f,h)
+            if x[0]*x0[0] <= 0:
+                ints.append([c,x0[1],x0[2]])
+            x0 = x
+        
+        points += ints
 
-    with Pool(processes=cpu_count()) as pool:
-        results = pool.map(worker, tasks)
+    print(f"==> The worker starting at {crange[0]:4.2f} just finished!")
 
-    print("Computed", len(results), "final states")
+    return points
 
 if __name__ == "__main__":
-    main()
+
+    # Create the arguments to be passed for each worker
+    N       = 100
+    cpus    = cpu_count()
+    c_min   = 0.35
+    c_max   = 0.65
+    delta   = (c_max - c_min)/cpus
+    args    = [linspace(c_min + i * delta, c_min + (i+1) * delta, N) for i in range(cpus)]
+    ints    = []
+
+    # Start them
+    with Pool(cpus) as pool:
+
+        for i in pool.map(worker, args): ints += i 
+        ints = array(ints).T
+
+        fig = plt.figure(figsize=(7,7), constrained_layout=True)
+        ax  = fig.add_subplot(111)#,projection='3d')
+
+        ax.scatter(ints[0],ints[2], s=0.1, marker='.', c='k', alpha=0.5) # type: ignore
+        # ax.view_init(elev=0, azim=-90)
+        ax.set_xlabel('c')
+        ax.set_ylabel('y')
+        # ax.set_zlabel('z')
+        plt.show()
