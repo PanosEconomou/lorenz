@@ -42,7 +42,7 @@ if __name__ == "__main__":
 
     # Create the arguments to be passed for each worker
     N       = 100
-    cpus    = 50 #cpu_count()
+    cpus    = 35 #cpu_count()
     c_min   = 0.35
     c_max   = 0.65
     delta   = (c_max - c_min) / cpus
