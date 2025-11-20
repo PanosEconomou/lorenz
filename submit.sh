@@ -6,13 +6,14 @@
 #SBATCH --time=00:10:00        # Maximum runtime (HH:MM:SS)
 #SBATCH --nodes=1              # Number of nodes requested
 #SBATCH --ntasks-per-node=1    # Number of times the script will be run per node
-#SBATCH --cpus-per-task=35     # Number of CPUS per program run
+#SBATCH --cpus-per-task=20     # Number of CPUS per program run
 #SBATCH --mem=2G               # Memory limit per node
 
 # --- Executable commands start below this line ---
 
 module purge
 module load anaconda3/2024.02
+echo "Loaded Modules"
 srun python lorenz_hpc.py
 echo "Job finished"
 
