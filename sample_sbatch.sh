@@ -10,13 +10,7 @@
 
 # --- Executable commands start below this line ---
 
-# Load necessary software modules
+
 module load python
-
-# Change to the submission directory
-cd $SLURM_SUBMIT_DIR
-
-# Run your program
-srun python my_script.py arg1 arg2
-
+srun python lorenz.py
 echo "Job finished"
