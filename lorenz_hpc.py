@@ -1,5 +1,5 @@
 from numpy import array, linspace, savetxt
-from multiprocessing import Pool, cpu_count
+from multiprocessing import Pool#, cpu_count
 from time import perf_counter
 
 def get_f(a:float=10, b:float=28, c:float=2.667):
@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     # Create the arguments to be passed for each worker
     N       = 100
-    cpus    = cpu_count()
+    cpus    = 20 #cpu_count()
     c_min   = 0.35
     c_max   = 0.65
     delta   = (c_max - c_min) / cpus
