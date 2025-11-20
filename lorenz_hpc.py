@@ -1,7 +1,7 @@
 from numpy import array, linspace, savetxt
 from multiprocessing import Pool#, cpu_count
 from time import perf_counter
-from os import get_pid
+from os import getpid
 
 def get_f(a:float=10, b:float=28, c:float=2.667):
     def f(x):
