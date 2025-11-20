@@ -14,7 +14,7 @@
 module purge
 module load anaconda3/2024.02
 echo "Loaded Modules"
-srun python lorenz_hpc.py
+srun --unbuffered python lorenz_hpc.py
 echo "Job finished"
 
 
