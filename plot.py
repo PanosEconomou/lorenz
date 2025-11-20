@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 ints = np.genfromtxt('intersections.csv', delimiter=',')
-print(ints)
 
 fig = plt.figure(figsize=(7,7), constrained_layout=True)
 ax  = fig.add_subplot(111)
