@@ -21,7 +21,7 @@ def worker(crange):
     a       = 10.
     b       = 28.
     h       = 3e-3
-    steps   = 30000
+    steps   = 60000
     points  = []
 
     for c in crange:
