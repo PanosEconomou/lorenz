@@ -10,9 +10,9 @@
 
 # --- Executable commands start below this line ---
 
-
-module load python
-srun python lorenz.py
+module purge
+module load anaconda3/2024.02
+srun python lorenz_hpc.py
 echo "Job finished"
 
 
