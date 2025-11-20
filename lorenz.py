@@ -20,7 +20,7 @@ def worker(crange):
     print(f"--> Hello! I'm the worker starting at {crange[0]:4.2f}")
     a       = 10.
     b       = 28.
-    h       = 5e-3
+    h       = 1e-2
     steps   = 10000
     points  = []
 
@@ -31,7 +31,7 @@ def worker(crange):
         for _ in range(steps):
             x = step(x0,f,h)
             if x[0]*x0[0] <= 0:
-                points.append(array([c,x[1],x[2]]))
+                points.append(array([c,x0[2] - x0[0]*(x[2] - x0[2])/(x[0] - x0[0]) ]))
             x0 = x
 
     print(f"==> The worker starting at {crange[0]:4.2f} just finished!")
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     c_min   = 0.35
     c_max   = 0.65
     delta   = (c_max - c_min) / cpus
-    args    = [linspace(c_min + i * delta, c_min + (i+1) * delta, N) for i in range(cpus)]
+    args    = [linspace(c_min + i * delta, c_min + (i+1) * delta - delta/N, N) for i in range(cpus)]
     ints    = []
 
     # Start them
@@ -63,7 +63,7 @@ if __name__ == "__main__":
         fig = plt.figure(figsize=(7,7), constrained_layout=True)
         ax  = fig.add_subplot(111)#,projection='3d')
 
-        ax.scatter(ints[0],ints[2], s=0.1, marker='.', c='k', alpha=0.5) # type: ignore
+        ax.scatter(ints[0],ints[1], s=0.1, marker='.', c='k', alpha=0.5) # type: ignore
         # ax.view_init(elev=0, azim=-90)
         ax.set_xlabel('c')
         ax.set_ylabel('y')
