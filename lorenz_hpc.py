@@ -20,8 +20,8 @@ def worker(crange):
     print(f"[{perf_counter():.3f}]--> PID=[{getpid()}] start at c={crange[0]:4.2f}")
     a       = 10.
     b       = 28.
-    h       = 1e-3
-    steps   = 100000
+    h       = 3e-3
+    steps   = 30000
     points  = []
 
     for c in crange:
@@ -41,7 +41,7 @@ def worker(crange):
 if __name__ == "__main__":
 
     # Create the arguments to be passed for each worker
-    N       = 100
+    N       = 200
     cpus    = 20 #cpu_count()
     c_min   = 0.35
     c_max   = 0.65
