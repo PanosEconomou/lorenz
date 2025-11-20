@@ -7,7 +7,7 @@
 #SBATCH --nodes=1              # Number of nodes requested
 #SBATCH --ntasks-per-node=1    # Number of times the script will be run per node
 #SBATCH --cpus-per-task=20     # Number of CPUS per program run
-#SBATCH --mem=1G               # Memory limit per node
+#SBATCH --mem=2G               # Memory limit per node
 
 # --- Executable commands start below this line ---
 

@@ -1,6 +1,7 @@
 from numpy import array, linspace, savetxt
 from multiprocessing import Pool#, cpu_count
 from time import perf_counter
+from os import get_pid
 
 def get_f(a:float=10, b:float=28, c:float=2.667):
     def f(x):
@@ -16,7 +17,7 @@ def step(x, f, h:float=1e-2):
 
 
 def worker(crange):
-    print(f"--> Hello! I'm the worker starting at {crange[0]:4.2f}")
+    print(f"[{perf_counter():.3f}]--> PID=[{get_pid}] start at c={crange[0]:4.2f}")
     a       = 10.
     b       = 28.
     h       = 1e-2
@@ -33,7 +34,7 @@ def worker(crange):
                 points.append(array([c,x0[2] - x0[0]*(x[2] - x0[2])/(x[0] - x0[0]) ]))
             x0 = x
 
-    print(f"==> The worker starting at {crange[0]:4.2f} just finished!")
+    print(f"[{perf_counter():.3f}]--> PID=[{get_pid}] end of c={crange[0]:4.2f}!")
 
     return points
 
